@@ -1,0 +1,30 @@
+---
+- name: Download wordpress
+  get_url:
+    url: "https://wordpress.org/latest.tar.gz"
+    dest: "/var/www/wordpress.tar.gz"
+    mode: 0644
+
+- name: Extract wordpress
+  unarchive:
+    src: "/var/www/wordpress.tar.gz"
+    dest: "/var/www/"
+    remote_src: yes
+    mode: 0755
+    owner: www-data
+    group: www-data
+
+- name: Clean up tar file
+  file:
+    path: "/var/www/wordpress.tar.gz"
+    state: absent
+
+- name: Config apache2 for wordpress alias
+  template:
+    src: wordpress.j2
+    dest: "/etc/apache2/conf-available/wordpress.conf"
+  notify: restart apache2
+
+- name: Enable wordpress site alias
+  command: a2enconf wordpress
+  notify: reload apache2
