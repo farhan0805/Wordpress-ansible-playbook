@@ -19,12 +19,8 @@
     path: "/var/www/wordpress.tar.gz"
     state: absent
 
-- name: Config apache2 for wordpress alias
-  template:
-    src: wordpress.j2
-    dest: "/etc/apache2/conf-available/wordpress.conf"
-  notify: restart apache2
-
-- name: Enable wordpress site alias
-  command: a2enconf wordpress
-  notify: reload apache2
+- name: Update Apache VirtualHost for WordPress
+  replace:
+    path: /etc/apache2/sites-available/000-default.conf
+    regexp: 'DocumentRoot /var/www/html'
+    replace: 'DocumentRoot /var/www/wordpress'
