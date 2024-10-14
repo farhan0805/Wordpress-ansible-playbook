@@ -24,7 +24,7 @@
     login_password: "{{ mysql_root_password }}"
 
 - name: Create mysql wordpress user
-  community.mysql.mysql_user:
+  mysql_user:
     name: "{{ wp_db_user }}"
     password: "{{ wp_db_pass }}"
     priv: "{{ wp_db_name }}.*:ALL"

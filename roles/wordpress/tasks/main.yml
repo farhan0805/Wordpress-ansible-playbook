@@ -24,3 +24,4 @@
     path: /etc/apache2/sites-available/000-default.conf
     regexp: 'DocumentRoot /var/www/html'
     replace: 'DocumentRoot /var/www/wordpress'
+  notify: restart apache2
