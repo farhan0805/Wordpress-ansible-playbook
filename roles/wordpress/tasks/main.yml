@@ -19,9 +19,14 @@
     path: "/var/www/wordpress.tar.gz"
     state: absent
 
+- name: backup default sites available
+  command: mv /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf.backup
+
 - name: Update Apache VirtualHost for WordPress
-  replace:
-    path: /etc/apache2/sites-available/000-default.conf
-    regexp: 'DocumentRoot /var/www/html'
-    replace: 'DocumentRoot /var/www/wordpress'
+  template:
+  src: wordpress.j2
+  dest: /etc/apache2/sites-available/000-default.conf
+  owner: root
+  group: root
+  mode: 0644
   notify: restart apache2
