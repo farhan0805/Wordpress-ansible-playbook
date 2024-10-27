@@ -2,30 +2,24 @@
 - name: Install php8.3
   apt:
     name:
-      - "php8.3-bcmath"
-      - "php8.3-cli"
-      - "php8.3-common"
-      - "php8.3-curl"
+      - "php8.3"
       - "php8.3-fpm"
-      - "php8.3-gd"
-      - "php8.3-igbinary"
-      - "php8.3-imagick"
       - "php8.3-mbstring"
-      - "php8.3-mysql"
-      - "php8.3-opcache"
-      - "php8.3-redis"
-      - "php8.3-soap"
-      - "php8.3-xml"
-      - "php8.3-xmlrpc"
-      - "php8.3-zip"
-      - "php8.3-enchant"
+      - "php-pear"
+      - "php8.3-fpm"
+      - "php-common"
+      - "php-gd"
+      - "php-mysql"
+      - "php-enchant"
       - "hunspell"
-      
+
     state: present
     force: yes
     update_cache: yes
 
 - name: set php-fpm
   command: "a2enmod proxy_fcgi setenvif && a2enconf php8.3-fpm"
-  notify: restart apache2
+  notify: 
+    - restart apache2
+    - restart php-fpm
   ignore_errors: yes
